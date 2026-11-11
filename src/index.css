@@ -1,0 +1,411 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@layer base {
+  :root {
+    --background: 200 100% 97%;
+    --foreground: 220 30% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 30% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 30% 20%;
+    --primary: 220 50% 35%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 212 80% 50%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 0 0% 33%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 222 47% 40%;
+    --radius: 0.5rem;
+  }
+
+  * { @apply border-border; }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  /* `clip` instead of `hidden` so position: sticky keeps working */
+  html, body { max-width: 100vw; overflow-x: clip; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-corner-600 hover:bg-corner-700 text-white px-6 py-3 rounded transition-colors duration-300;
+  }
+
+  .btn-secondary {
+    @apply bg-white border border-corner-600 text-corner-600 hover:bg-corner-50 px-6 py-3 rounded transition-colors duration-300;
+  }
+
+  .section-padding { @apply py-16 md:py-24; }
+
+  .container-custom { @apply px-4 mx-auto max-w-7xl sm:px-6 lg:px-8; }
+
+  .gradient-blue { @apply bg-gradient-to-r from-corner-700 to-corner-500; }
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-corner-700 to-corner-400 bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in-up { animation: fadeInUp 0.6s ease-out both; }
+  .animate-float { animation: float 4s ease-in-out infinite; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    will-change: opacity, transform;
+  }
+
+  .reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-left {
+    transform: translateX(-40px) translateY(10px);
+  }
+
+  .reveal-right {
+    transform: translateX(40px) translateY(10px);
+  }
+
+  .reveal-up {
+    transform: translateY(40px);
+  }
+
+  .reveal.show.reveal-left,
+  .reveal.show.reveal-right,
+  .reveal.show.reveal-up {
+    transform: translateX(0) translateY(0);
+  }
+
+  .reveal-img {
+    opacity: 0;
+    transform: scale(0.96) translateY(20px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  .reveal-img.show {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  .counter-hover {
+    cursor: pointer;
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+
+  .counter-hover:hover,
+  .counter-hover:focus-visible {
+    transform: scale(1.05);
+    color: #29378a;
+  }
+
+  /* Gold counter treatment for the dark 10-years section */
+  .counter-hover.annv-counter:hover,
+  .counter-hover.annv-counter:focus-visible {
+    transform: scale(1.12);
+    color: #fcd34d;
+    text-shadow: 0 0 22px rgba(41, 55, 138, 0.55);
+    outline: none;
+  }
+  
+  .animate-story-slide {
+    @apply opacity-0;
+    animation: slide-in-left 0.9s ease-out forwards;
+  }
+
+  .animate-story-slide-right {
+    @apply opacity-0;
+    animation: slide-in-right 0.9s ease-out forwards;
+  }
+
+  .animate-pop-in {
+    animation: pop-in 0.6s ease-out forwards;
+  }
+
+  .story-font {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+  }
+
+  .story-paragraph {
+    @apply text-slate-700 leading-8 text-lg;
+  }
+
+  .documentary-frame {
+    border: 12px solid transparent;
+    border-image: repeating-linear-gradient(45deg, #29378a 0 10px, #f8f8ff 10px 20px, #29378a 20px 30px, #f8f8ff 30px 40px) 20;
+    background: rgba(248, 248, 255, 0.9);
+  }
+
+  .documentary-frame-inner {
+    position: relative;
+  }
+
+  .documentary-frame-inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at top left, rgba(41,55,138,0.12), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(15,76,204,0.12), transparent 30%);
+  }
+
+  .logo-rotate {
+    display: inline-block;
+    transform-origin: center center;
+    will-change: transform;
+  }
+
+  .logo-badge img {
+    filter: drop-shadow(0 16px 24px rgba(15, 23, 42, 0.18));
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Program page shared animations (Heritage-style) ───────────────── */
+
+/* ── Keyframes ─────────────────────────────────────────────────────── */
+
+@keyframes wordUp {
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Word flies in from left with skew overshoot */
+@keyframes wordFromLeft {
+  0%   { transform: translateX(-115%) skewX(18deg); opacity: 0; }
+  65%  { transform: translateX(4%) skewX(-4deg);    opacity: 1; }
+  100% { transform: translateX(0)   skewX(0deg);    opacity: 1; }
+}
+
+/* Word flies in from right with skew overshoot */
+@keyframes wordFromRight {
+  0%   { transform: translateX(115%) skewX(-18deg); opacity: 0; }
+  65%  { transform: translateX(-4%) skewX(4deg);    opacity: 1; }
+  100% { transform: translateX(0)   skewX(0deg);    opacity: 1; }
+}
+
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Line wipe for the section dividers */
+@keyframes lineWipe {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Ken Burns zoom for the hero carousel */
+@keyframes heroKenBurns {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.hero-slide-active img {
+  animation: heroKenBurns 8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide-active img { animation: none; }
+}
+
+/* ── Word classes (run on mount, used in headings) ─────────────────── */
+
+.word-reveal {
+  transform: translateY(110%);
+  opacity: 0;
+  animation: wordUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.word-from-left {
+  display: inline-block;
+  opacity: 0;
+  animation: wordFromLeft 0.75s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.word-from-right {
+  display: inline-block;
+  opacity: 0;
+  animation: wordFromRight 0.75s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+/* ── Scroll-reveal: generic fade-up ────────────────────────────────── */
+
+[data-ht] {
+  opacity: 0;
+  transform: translateY(44px);
+  transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1),
+              transform 0.75s cubic-bezier(0.16,1,0.3,1);
+}
+[data-ht].ht-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Scroll-reveal: slide from left ────────────────────────────────── */
+
+[data-ht-left] {
+  opacity: 0;
+  transform: translateX(-90px) skewX(6deg);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+              transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+[data-ht-left].ht-visible {
+  opacity: 1;
+  transform: translateX(0) skewX(0deg);
+}
+
+/* ── Scroll-reveal: slide from right ───────────────────────────────── */
+
+[data-ht-right] {
+  opacity: 0;
+  transform: translateX(90px) skewX(-6deg);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+              transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+[data-ht-right].ht-visible {
+  opacity: 1;
+  transform: translateX(0) skewX(0deg);
+}
+
+/* ── Scroll-reveal: scale pop ──────────────────────────────────────── */
+
+[data-ht-scale] {
+  opacity: 0;
+  transform: scale(0.82);
+  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+              transform 0.65s cubic-bezier(0.34,1.56,0.64,1);
+}
+[data-ht-scale].ht-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Delay helpers (work for all data-ht variants) ─────────────────── */
+
+[data-ht-d="1"], [data-ht-left][data-ht-d="1"], [data-ht-right][data-ht-d="1"], [data-ht-scale][data-ht-d="1"] { transition-delay: 0.08s; }
+[data-ht-d="2"], [data-ht-left][data-ht-d="2"], [data-ht-right][data-ht-d="2"], [data-ht-scale][data-ht-d="2"] { transition-delay: 0.16s; }
+[data-ht-d="3"], [data-ht-left][data-ht-d="3"], [data-ht-right][data-ht-d="3"], [data-ht-scale][data-ht-d="3"] { transition-delay: 0.24s; }
+[data-ht-d="4"], [data-ht-left][data-ht-d="4"], [data-ht-right][data-ht-d="4"], [data-ht-scale][data-ht-d="4"] { transition-delay: 0.32s; }
+[data-ht-d="5"], [data-ht-left][data-ht-d="5"], [data-ht-right][data-ht-d="5"], [data-ht-scale][data-ht-d="5"] { transition-delay: 0.40s; }
+[data-ht-d="6"], [data-ht-left][data-ht-d="6"], [data-ht-right][data-ht-d="6"], [data-ht-scale][data-ht-d="6"] { transition-delay: 0.48s; }
+
+/* ── Line draw ─────────────────────────────────────────────────────── */
+
+.line-draw {
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 1s cubic-bezier(0.16,1,0.3,1);
+}
+[data-ht].ht-visible .line-draw,
+[data-ht-left].ht-visible .line-draw,
+[data-ht-right].ht-visible .line-draw {
+  transform: scaleX(1);
+}
+
+/* ── Stat pop (used inside [data-ht] or [data-ht-scale]) ───────────── */
+
+.stat-pop {
+  transform: scale(0.65);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.34,1.56,0.64,1),
+              opacity 0.55s ease;
+}
+[data-ht].ht-visible .stat-pop,
+[data-ht-left].ht-visible .stat-pop,
+[data-ht-right].ht-visible .stat-pop,
+[data-ht-scale].ht-visible .stat-pop {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* ── Quote word cascade ────────────────────────────────────────────── */
+
+.q-word {
+  display: inline-block;
+  margin-right: 0.28em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+[data-ht].ht-visible .q-word,
+[data-ht-left].ht-visible .q-word,
+[data-ht-right].ht-visible .q-word {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Marquee ───────────────────────────────────────────────────────── */
+
+.marquee-track {
+  animation: marqueeScroll 22s linear infinite;
+  white-space: nowrap;
+}
+
+/* ── Card hover lift ───────────────────────────────────────────────── */
+
+.heritage-card {
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+}
+.heritage-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.13);
+}
