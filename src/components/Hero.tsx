@@ -1,0 +1,125 @@
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faCirclePlay } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+
+const heroSlides = [
+  "/media/photos/mombasa-3.webp",
+  "/media/photos/digital-literacy-2.webp",
+  "/media/photos/mombasa-3.webp",
+  "/media/photos/mombasa-1.webp",
+  "/media/photos/american-spaces-speaker-1.webp",
+];
+
+const SLIDE_DURATION = 6000;
+
+const Hero = () => {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % heroSlides.length);
+    }, SLIDE_DURATION);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <section className="relative min-h-[92vh] flex items-center overflow-x-hidden">
+      {/* Background carousel */}
+      <div className="absolute inset-0 overflow-hidden">
+        {heroSlides.map((slide, index) => (
+          <div
+            key={slide}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === activeSlide ? "opacity-100 hero-slide-active" : "opacity-0"
+            }`}
+            aria-hidden={index !== activeSlide}
+          >
+            <img
+              src={slide}
+              alt=""
+              className="h-full w-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="async"
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Overlay gradients — lighter so images show through */}
+      <div className="absolute inset-0 bg-corner-950/60"></div>
+
+      {/* Content */}
+      <div className="container-custom relative z-10 py-24 pb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="max-w-2xl">
+            <span className="inline-block bg-corner-600 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded mb-6 reveal reveal-left" data-reveal>
+              Empowering East African Youth
+            </span>
+
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6 reveal reveal-left" data-reveal>
+              Building a <span className="text-corner-400">Brighter Future</span> For Our Youth
+            </h1>
+
+            <p className="text-white/80 text-lg md:text-xl leading-relaxed mb-10 max-w-xl reveal reveal-right" data-reveal>
+              Reserved — awaits confirmation nurtures youth talent through technology, heritage, arts, and entrepreneurship in the heart of Kenyan Coast.
+            </p>
+
+            <div className="flex flex-wrap gap-4 reveal reveal-up" data-reveal>
+              <Button size="lg" className="bg-corner-600 hover:bg-corner-500 text-white px-8 h-12 text-base font-semibold rounded transition-all duration-300 shadow-lg shadow-corner-900/40" asChild>
+                <Link to="/programs" className="flex items-center gap-2">
+                  Discover Programs <FontAwesomeIcon icon={faArrowRight} />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="border-white/50 text-white hover:bg-white hover:text-corner-800 px-8 h-12 text-base font-semibold rounded transition-all duration-300 bg-transparent" asChild>
+                <Link to="/about" className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faCirclePlay} /> Our Story
+                </Link>
+              </Button>
+              <Button size="lg" className="bg-[rgb(232,123,53)] hover:bg-[rgb(232,100,30)] text-white px-8 h-12 text-base font-semibold rounded transition-all duration-300 shadow-lg shadow-corner-900/40" asChild>
+                <Link to="https://soldoutafrica.com/pwani-innovation-week" target="_blank" className="flex items-center gap-2">
+                  Get your PGT Ticket <FontAwesomeIcon icon={faArrowRight} />
+                </Link>
+              </Button>
+              <Button size="lg" className="bg-[rgb(232,123,53)] hover:bg-[rgb(232,100,30)] text-white px-8 h-12 text-base font-semibold rounded transition-all duration-300 shadow-lg shadow-corner-900/40" asChild>
+                <Link to="https://soldoutafrica.com/pwani-gat-talent" target="_blank" className="flex items-center gap-2">
+                  Get your PIW Ticket <FontAwesomeIcon icon={faArrowRight} />
+                </Link>
+              </Button>
+            </div>
+
+            {/* Mission & Vision */}
+            <div className="mt-14 space-y-6">
+              <div className="rounded-3xl border border-white/10 bg-white/10 p-6 shadow-2xl shadow-black/10 backdrop-blur-xl">
+                <p className="text-sm uppercase tracking-[0.35em] text-slate-300 mb-3">Mission</p>
+                <p className="text-slate-100 leading-relaxed text-sm">
+                  To empower and transform youth by providing access to safe spaces, building their capacity, promoting collaboration and linking them to opportunities for their holistic growth and development.
+                </p>
+              </div>
+              <div className="rounded-3xl border border-white/10 bg-slate-950/70 p-6 shadow-2xl shadow-black/10 backdrop-blur-xl">
+                <p className="text-sm uppercase tracking-[0.35em] text-slate-300 mb-3">Vision</p>
+                <p className="text-slate-200 leading-relaxed text-sm">
+                  'Transformed youth, thriving communities'
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="reveal reveal-right" data-reveal>
+            <img src="/media/art/events.svg" alt="" className="w-full rounded-2xl shadow-2xl shadow-black/40" />
+          </div>
+        </div>
+      </div>
+
+      {/* Wave SVG */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+        <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" className="fill-white w-full h-10">
+          <path d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z" />
+        </svg>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
